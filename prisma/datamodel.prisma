@@ -1,0 +1,39 @@
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+}
+
+type Speaker {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  bio: String!
+  github: String
+  twitter: String
+  website: String
+  extraLinks: [String]
+  events: [Event] @relation(name: "EventsForSpeaker")
+}
+
+type Event {
+  id: ID! @unique
+  name: String!
+  datetime: DateTime!
+  location: String! @default(value: "TEKsystems - 700 Room - First Floor")
+  address: String! @default(value: "700 N Hurstbourne Pkwy Suite 250, Louisville, KY 40222")
+  meetupUrl: String
+  extraLinks: [String]
+  organizer: User!
+  project: Project @relation(name: "ProjectForEvent")
+  speaker: Speaker @relation(name: "EventsForSpeaker")
+}
+
+type Project {
+  id: ID! @unique
+  name: String!
+  description: String!
+  repo: String!
+  contacts: [String]
+  events: [Event] @relation(name: "ProjectForEvent")
+}

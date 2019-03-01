@@ -1,0 +1,79 @@
+type Query {
+  users(query: String): [User!]!
+  # me: User!
+}
+
+type Mutation {
+  createUser(data: CreateUserInput!): User!
+  deleteUser(id: ID!): User!
+  updateUser(id: ID!, data: UpdateUserInput!): User!
+}
+
+type Subscription {
+  event: EventSubscriptionPayload!
+  project: ProjectSubscriptionPayload!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type Speaker {
+  id: ID!
+  name: String!
+  email: String!
+  bio: String!
+  github: String
+  twitter: String
+  website: String
+  extraLinks: [String]
+  events: [Event]
+}
+
+type Event {
+  id: ID!
+  name: String!
+  # datetime: DateTime!
+  location: String!
+  address: String!
+  meetupUrl: String
+  extraLinks: [String]
+  organizer: User!
+  project: Project
+}
+
+type Project {
+  id: ID!
+  name: String!
+  description: String!
+  repo: String!
+  contacts: [String]
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type EventSubscriptionPayload {
+  mutation: MutationType!
+  data: Event!
+}
+
+type ProjectSubscriptionPayload {
+  mutation: MutationType!
+  data: Project!
+}

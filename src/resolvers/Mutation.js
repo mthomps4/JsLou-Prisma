@@ -1,71 +1,49 @@
-import uuidv4 from 'uuid/v4';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const Mutation = {
-  createUser(parent, args, { db }, info) {
-    const emailTaken = db.users.some(user => user.email === args.data.email);
+  async createUser(parent, args, { prisma }, info) {
+    // const emailTaken = await prisma.exists.User({ email: args.data.email });
 
-    if (emailTaken) {
-      throw new Error('Email taken');
+    // if (emailTaken) {
+    //   throw new Error('Email taken');
+    // }
+
+    if (args.data.password.length < 8) {
+      throw new Error('Password must be 8 characters or longer');
     }
 
-    const user = {
-      id: uuidv4(),
-      ...args.data
-    };
+    const hashedPassword = await bcrypt.hash(args.data.password, 10);
 
-    db.users.push(user);
-
-    return user;
-  },
-  deleteUser(parent, args, { db }, info) {
-    const userIndex = db.users.findIndex(user => user.id === args.id);
-
-    if (userIndex === -1) {
-      throw new Error('User not found');
-    }
-
-    const deletedUsers = db.users.splice(userIndex, 1);
-
-    db.posts = db.posts.filter(post => {
-      const match = post.author === args.id;
-
-      if (match) {
-        db.comments = db.comments.filter(comment => comment.post !== post.id);
+    const user = await prisma.mutation.createUser({
+      data: {
+        ...args.data,
+        password: hashedPassword
       }
-
-      return !match;
     });
-    db.comments = db.comments.filter(comment => comment.author !== args.id);
 
-    return deletedUsers[0];
+    return {
+      user,
+      token: jwt.sign({ userId: user.id }, 'jwtsecret')
+    };
   },
-  updateUser(parent, args, { db }, info) {
-    const { id, data } = args;
-    const user = db.users.find(user => user.id === id);
+  async deleteUser(parent, args, { prisma }, info) {
+    // const userExists = await prisma.exists.User({ id: args.id });
 
-    if (!user) {
-      throw new Error('User not found');
-    }
+    // if (!userExists) {
+    //   throw new Error('User not found');
+    // }
 
-    if (typeof data.email === 'string') {
-      const emailTaken = db.users.some(user => user.email === data.email);
-
-      if (emailTaken) {
-        throw new Error('Email taken');
-      }
-
-      user.email = data.email;
-    }
-
-    if (typeof data.name === 'string') {
-      user.name = data.name;
-    }
-
-    if (typeof data.age !== 'undefined') {
-      user.age = data.age;
-    }
-
-    return user;
+    return prisma.mutation.deleteUser({ where: { id: args.id } }, info);
+  },
+  async updateUser(parent, args, { prisma }, info) {
+    prisma.mutation.updateUser(
+      {
+        where: { id: args.id },
+        data: args.data
+      },
+      info
+    );
   }
 };
 

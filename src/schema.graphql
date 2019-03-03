@@ -1,10 +1,13 @@
 type Query {
-  users(query: String): [User!]!
   # me: User!
+  users(query: String): [User!]!
+  speakers(query: String): [Speaker!]!
+  events(query: String): [Event!]!
+  projects(query: String): [Event!]!
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): User!
+  createUser(data: CreateUserInput!): AuthPayload!
   deleteUser(id: ID!): User!
   updateUser(id: ID!, data: UpdateUserInput!): User!
 }
@@ -12,11 +15,19 @@ type Mutation {
 type Subscription {
   event: EventSubscriptionPayload!
   project: ProjectSubscriptionPayload!
+  speaker: SpeakerSubscriptionPayload!
+  user: UserSubscriptionPayload!
+}
+
+type AuthPayload {
+  user: User!
+  token: String!
 }
 
 input CreateUserInput {
   name: String!
   email: String!
+  password: String!
 }
 
 input UpdateUserInput {
@@ -28,6 +39,7 @@ type User {
   id: ID!
   name: String!
   email: String!
+  password: String!
 }
 
 type Speaker {
@@ -68,12 +80,22 @@ enum MutationType {
   DELETED
 }
 
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+}
+
+type SpeakerSubscriptionPayload {
+  mutation: MutationType!
+  node: Speaker
+}
+
 type EventSubscriptionPayload {
   mutation: MutationType!
-  data: Event!
+  node: Event
 }
 
 type ProjectSubscriptionPayload {
   mutation: MutationType!
-  data: Project!
+  node: Project
 }

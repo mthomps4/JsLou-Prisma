@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  server:
+    build: ./
+    image: graphql-server
+    depends_on:
+      - prisma
+    ports:
+      - '4000:4000'
+    environment:
+      DEBUG: 1
+      REACT_APP_PRISMA_SECRET: '${REACT_APP_PRISMA_SECRET}'
+  prisma:
+    image: prismagraphql/prisma:1.27
+    restart: always
+    ports:
+      - '4466:4466'
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        # uncomment the next line and provide the env var PRISMA_MANAGEMENT_API_SECRET=my-secret to activate cluster security
+        # managementApiSecret: "${MANAGEMENT_API_SECRET}"
+        databases:
+          default:
+            connector: postgres
+            host: "${DB_HOST}"
+            port: "${DB_PORT}"
+            database: "${DB_NAME}"
+            user: "${DB_USER}"
+            password: "${DB_PASSWORD}"
+            rawAccess: true
+            migrations: true # Remove after Prod Release
+            ssl: true
+
+#   prisma:
+#     ports:
+#       - '4466:4466'
+
+# volumes: mysql:

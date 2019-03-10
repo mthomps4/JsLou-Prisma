@@ -13,7 +13,7 @@ if [ $DEBUG = 1 ]; then
 
   nodemon --ext js,graphql --exec 'prisma deploy && babel-node' src/index.js --delay 2.5 &
 
-  graphql playground
+  graphql playground --port=3001
 
 else
 

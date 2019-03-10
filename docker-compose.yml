@@ -2,10 +2,11 @@ version: '3'
 
 services:
   prisma:
-    image: prismagraphql/prisma:1.27
+    image: prismagraphql/prisma:1.28
     restart: always
     ports:
       - '4466:4466'
+      - '3001:3001'
     network_mode: host
     environment:
       PRISMA_CONFIG: |
@@ -29,6 +30,7 @@ services:
       - prisma
     ports:
       - '4000:4000'
+      - '3001:3001'
     network_mode: host
     environment:
       DEBUG: 1

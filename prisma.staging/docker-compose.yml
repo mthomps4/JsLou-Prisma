@@ -1,12 +1,10 @@
 version: '3'
-
 services:
   prisma:
-    image: prismagraphql/prisma:1.28
+    image: prismagraphql/prisma:1.27
     restart: always
     ports:
       - '4466:4466'
-    network_mode: host
     environment:
       PRISMA_CONFIG: |
         port: 4466
@@ -23,13 +21,3 @@ services:
             rawAccess: true
             migrations: true # Remove after Prod Release
             ssl: true
-  server:
-    build: ./
-    depends_on:
-      - prisma
-    ports:
-      - '4000:4000'
-    network_mode: host
-    environment:
-      DEBUG: 0
-      REACT_APP_PRISMA_SECRET: '${REACT_APP_PRISMA_SECRET}'

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "getSchema": "graphql get-schema -p prisma",
-    "start": "docker-compose -f docker-compose.yml up",
-    "poststart": "docker-compose down",
+    "start:docker": "docker-compose -f docker-compose.yml up",
+    "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
     "serve": "docker-compose -f docker-compose.prod.yml up --build --force-recreate -d"
   },
   "author": "Matt Thompson <matthew.thompson.a@gmail.com> & Shannon Beach <shannonbeach1982@gmail.com>",

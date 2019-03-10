@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "getSchema": "graphql get-schema -p prisma",
-    "start": "docker-compose -f docker-compose.dev.yml up",
+    "start": "docker-compose -f docker-compose.yml up",
     "poststart": "docker-compose down",
     "serve": "docker-compose -f docker-compose.prod.yml up --build --force-recreate -d"
   },

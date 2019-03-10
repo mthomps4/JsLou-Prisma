@@ -1,15 +1,12 @@
 version: '3'
 
 services:
-  server:
-    environment:
-      - DEBUG=0
-    restart: always
   prisma:
     image: prismagraphql/prisma:1.27
     restart: always
     ports:
       - '4466:4466'
+    network_mode: host
     environment:
       PRISMA_CONFIG: |
         port: 4466
@@ -26,13 +23,13 @@ services:
             rawAccess: true
             migrations: true # Remove after Prod Release
             ssl: true
-
-#   prisma:
-#     image: prismagraphql/prisma:1.13
-#     restart: always
-#     expose:
-#       - '4466'
-#   mysql:
-#     restart: always
-
-# volumes: mysql:
+  server:
+    build: ./
+    depends_on:
+      - prisma
+    ports:
+      - '4000:4000'
+    network_mode: host
+    environment:
+      DEBUG: 1
+      REACT_APP_PRISMA_SECRET: '${REACT_APP_PRISMA_SECRET}'

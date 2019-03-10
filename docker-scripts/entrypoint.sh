@@ -9,9 +9,11 @@ if [ $DEBUG = 1 ]; then
 
   echo "Running in debug mode"
 
-  nodemon --exec 'prisma deploy && node' src/index.js --delay 2.5 &
+  nodemon src/index.js --ext js,graphql --exec babel-node
 
-  graphql playground
+  # nodemon --exec 'prisma deploy && node' src/index.js --delay 2.5 &
+
+  # graphql playground
 
 else
 

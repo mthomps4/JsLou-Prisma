@@ -13,7 +13,6 @@ const server = new GraphQLServer({
     Subscription
   },
   context: {
-    // db,
     pubsub,
     prisma
   }

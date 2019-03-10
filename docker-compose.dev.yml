@@ -1,21 +1,12 @@
 version: '3'
 
 services:
-  server:
-    build: ./
-    image: graphql-server
-    depends_on:
-      - prisma
-    ports:
-      - '4000:4000'
-    environment:
-      DEBUG: 1
-      REACT_APP_PRISMA_SECRET: '${REACT_APP_PRISMA_SECRET}'
   prisma:
     image: prismagraphql/prisma:1.27
     restart: always
     ports:
       - '4466:4466'
+    network_mode: host
     environment:
       PRISMA_CONFIG: |
         port: 4466
@@ -32,7 +23,17 @@ services:
             rawAccess: true
             migrations: true # Remove after Prod Release
             ssl: true
-
+  server:
+    build: ./
+    # image: graphql-server
+    depends_on:
+      - prisma
+    ports:
+      - '4000:4000'
+    network_mode: host
+    environment:
+      DEBUG: 1
+      REACT_APP_PRISMA_SECRET: '${REACT_APP_PRISMA_SECRET}'
 #   prisma:
 #     ports:
 #       - '4466:4466'

@@ -1,2 +1,9 @@
 Old Package npm start
     // "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
+
+
+  "devDependencies": {
+    "graphql-cli": "^3.0.11",
+    "nodemon": "^1.18.10",
+    "prisma": "1.28.1"
+  }

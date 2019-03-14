@@ -18,6 +18,15 @@ const server = new GraphQLServer({
   }
 });
 
-server.start({
-  cors: { credentials: true, origin: [process.env.FRONTEND_URL, process.env.BACKED_URL, process.env.PLAYGROUND_URL] }
-});
+server
+  .start({
+    cors: { credentials: true, origin: [process.env.FRONTEND_URL, process.env.BACKED_URL, process.env.PLAYGROUND_URL] }
+  })
+  .then(() =>
+    console.log(
+      `Server(s) started on - app: ${process.env.FRONTEND_URL} -- prisma: ${process.env.FRONTEND_URL} -- playground: ${
+        process.env.PLAYGROUND_URL
+      }`
+    )
+  )
+  .catch(e => console.error(e));

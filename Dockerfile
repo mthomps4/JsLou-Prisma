@@ -13,8 +13,6 @@ COPY . .
 
 RUN chmod -R +x ./docker-scripts/
 
-# VOLUME [ "/usr/src/app" ]
-
 EXPOSE 4000
 
 ENTRYPOINT [ "./docker-scripts/entrypoint.sh" ]

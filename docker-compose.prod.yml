@@ -23,7 +23,7 @@ services:
             rawAccess: true
             migrations: true # Remove after Prod Release
             ssl: true
-  server:
+  app:
     build: ./
     depends_on:
       - prisma

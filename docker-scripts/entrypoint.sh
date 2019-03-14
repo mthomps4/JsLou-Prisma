@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Wait until prisma is avaliable, and download schemas
-./docker-scripts/wait-for-it.sh prisma:4466 -- prisma deploy
+./docker-scripts/wait-for-it.sh prisma:4466 --timeout=30 -- prisma deploy
 
 graphql get-schema --project prisma
 
@@ -11,7 +11,8 @@ if [ $DEBUG = 1 ]; then
 
   # nodemon src/index.js --ext js,graphql --exec babel-node
 
-  nodemon --ext js,graphql --exec 'prisma deploy && babel-node' src/index.js --delay 2.5 &
+  # nodemon --ext js,graphql --exec 'prisma deploy && babel-node' src/index.js --delay 2.5 &
+  nodemon --ext js,graphql --exec 'babel-node' src/index.js --delay 2.5 &
 
   graphql playground --port=3001
 

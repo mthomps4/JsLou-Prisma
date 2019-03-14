@@ -13,12 +13,21 @@ const server = new GraphQLServer({
     Subscription
   },
   context: {
-    // db,
     pubsub,
     prisma
   }
 });
 
-server.start(() => {
-  console.log('The server is up!');
-});
+server
+  .start({
+    cors: { credentials: true, origin: [process.env.FRONTEND_URL, process.env.BACKEND_URL, process.env.PLAYGROUND_URL] }
+  })
+  .then(() =>
+    console.log(
+      `Server(s) started on
+      -- app: ${process.env.FRONTEND_URL}
+      -- prisma: ${process.env.BACKEND_URL}
+      -- playground: ${process.env.PLAYGROUND_URL}/playground`
+    )
+  )
+  .catch(e => console.error(e));

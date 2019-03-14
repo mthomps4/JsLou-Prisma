@@ -4,9 +4,10 @@
   "description": "Louisville Kentucky's JavaScript Group (API)",
   "main": "index.js",
   "scripts": {
+    "getSchema": "graphql get-schema -p prisma",
+    "start:docker": "docker-compose -f docker-compose.yml up",
     "start": "nodemon src/index.js --ext js,graphql --exec babel-node",
-    "getSchema": "graphql get-schema -p jslou-api",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "docker-compose -f docker-compose.prod.yml up --build --force-recreate -d"
   },
   "author": "Matt Thompson <matthew.thompson.a@gmail.com> & Shannon Beach <shannonbeach1982@gmail.com>",
   "license": "ISC",
@@ -15,13 +16,14 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
-    "graphql-yoga": "^1.14.10",
+    "graphql-yoga": "^1.17.4",
     "jsonwebtoken": "^8.5.0",
-    "prisma-binding": "^2.3.3"
+    "prisma-binding": "^2.3.8"
   },
   "devDependencies": {
-    "graphql-cli": "^3.0.11",
-    "nodemon": "^1.17.5",
-    "prisma": "1.27.4"
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "babel-core": "^6.26.3"
   }
 }

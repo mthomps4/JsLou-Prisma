@@ -1,13 +1,13 @@
-FROM node:10
+FROM node:latest
 
 WORKDIR /usr/src/app
 
-RUN yarn global add graphql-cli prisma nodemon
+RUN npm i -g graphql-cli prisma nodemon
 
 COPY package.json ./
-COPY yarn.lock ./
+COPY package-lock.json ./
 
-RUN yarn install
+RUN npm install
 
 COPY . .
 

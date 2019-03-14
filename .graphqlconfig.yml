@@ -1,5 +1,5 @@
 projects:
-  app:
+  api:
     schemaPath: src/schema.graphql
     extensions:
       endpoints:
@@ -8,6 +8,7 @@ projects:
     schemaPath: src/generated/prisma.graphql
     extensions:
       prisma: prisma/prisma.yml
+# In entrypoint.sh
 # hooks:
 #   post-deploy:
 #     - graphql get-schema -p prisma

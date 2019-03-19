@@ -6,7 +6,7 @@ import Subscription from './resolvers/Subscription';
 const pubsub = new PubSub();
 
 const server = new GraphQLServer({
-  typeDefs: './src/schema.graphql',
+  typeDefs: 'api/src/schema.graphql',
   resolvers: {
     Query,
     Mutation,

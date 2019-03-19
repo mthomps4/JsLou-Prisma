@@ -10,7 +10,7 @@ if [ $DEBUG = 1 ]; then
   echo "Running in debug mode"
 
   # nodemon --ext js,graphql --exec 'prisma deploy && babel-node' src/index.js --delay 2.5 &
-  nodemon --ext js,graphql --exec 'babel-node' src/index.js --delay 2.5 &
+  nodemon --ext js,graphql --exec 'babel-node' api/src/index.js --delay 2.5 &
 
   graphql playground --port=3001
 
@@ -18,6 +18,6 @@ else
 
   echo "Running in production mode"
 
-  nodemon --exec 'babel-node' src/index.js
+  nodemon --exec 'babel-node' api/src/index.js
 
 fi

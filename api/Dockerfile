@@ -4,8 +4,8 @@ WORKDIR /usr/src/app
 
 RUN npm i -g graphql-cli prisma nodemon
 
-COPY package.json ./
-COPY package-lock.json ./
+COPY api/package.json ./
+COPY api/package-lock.json ./
 
 RUN npm install
 

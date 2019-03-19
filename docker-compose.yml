@@ -2,6 +2,7 @@ version: '3'
 
 services:
   prisma:
+    container_name: jslou-prisma
     image: prismagraphql/prisma:1.28
     restart: always
     ports:
@@ -25,7 +26,10 @@ services:
             migrations: true # Remove after Prod Release
             ssl: true
   api:
-    build: ./
+    container_name: jslou-api
+    build:
+      context: ./
+      dockerfile: api/Dockerfile
     depends_on:
       - prisma
     ports:
